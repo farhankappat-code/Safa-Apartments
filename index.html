@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SAFA APPARTMENTS</title>
+    <title>SAFA APARTMENTS</title>
     <meta
       name="description"
-      content="SAFA APPARTMENTS – Daily & Monthly rental rooms with easy online booking."
+      content="SAFA APARTMENTS – Daily & Monthly rental rooms with easy online booking."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -315,6 +315,13 @@
         }
       }
     </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+      (function () {
+        emailjs.init("TU0rvpFgyj7-V_-OG"); // replace with your EmailJS public key
+      })();
+    </script>
   </head>
   <body>
     <!-- Header -->
@@ -342,7 +349,7 @@
             >
               WELCOME TO
             </div>
-            <div>SAFA APPARTMENTS</div>
+            <div>SAFA APARTMENTS</div>
           </div>
         </div>
         <nav>
@@ -375,7 +382,7 @@
                 background-clip: text;
                 color: transparent;
               "
-              >SAFA APPARTMENTS</span
+              >SAFA APARTMENTS</span
             >
           </h1>
           <p class="subtitle">
@@ -408,18 +415,6 @@
               background-position: center;
             "
           ></div>
-          <!-- <div style="color: var(--muted); font-size: 14px">
-            Replace with your logo image:
-            <code
-              style="
-                background: #0b1224;
-                padding: 4px 8px;
-                border: 1px solid rgba(148, 163, 184, 0.25);
-                border-radius: 8px;
-              "
-              >.logo-lg</code
-            >
-          </div> -->
           <ul style="margin-top: 12px; padding-left: 18px; color: var(--text)">
             <li>Prime location – walkable to transit & markets</li>
             <li>AC / Non‑AC options, free Wi‑Fi</li>
@@ -635,10 +630,10 @@
             />
             <h4 style="margin: 0 0 8px">Contact</h4>
             <p style="margin: 0; color: var(--muted)">
-              SAFA APPARTMENTS<br />
+              SAFA APARTMENTS<br />
               NEAR MOULANA HOSPITAL PERINTHALMANNA<br />
-              Phone: +91‑9544500971<br />
-              Email: Safaappartments@gmail.com
+              Phone: +91‑97456 26655<br />
+              Email: Safaperintalmanna@gmail.com
             </p>
           </aside>
         </div>
@@ -647,7 +642,7 @@
 
     <footer>
       <div class="container">
-        © <span id="year"></span> SAFA APPARTMENTS · All rights reserved
+        © <span id="year"></span> SAFA APARTMENTS · All rights reserved
       </div>
     </footer>
 
@@ -686,16 +681,23 @@
         })
       );
 
-      // Handle booking submission (demo only)
+      // Handle booking submission with EmailJS
       const form = document.getElementById("bookingForm");
       form.addEventListener("submit", function (e) {
         e.preventDefault();
-        const data = Object.fromEntries(new FormData(form).entries());
-        const msg = `Thanks, ${data.name}!\n\nRequest received for a ${data.plan} stay from ${data.checkin} to ${data.checkout} for ${data.guests} guest(s).\nWe'll contact you at ${data.phone} shortly.`;
-        alert(msg);
-        form.reset();
-        location.hash = "#home";
-        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        emailjs
+          .sendForm("service_ocqkt1s", "template_9dr2crz", this)
+          .then(() => {
+            alert("✅ Booking request sent! We will contact you soon.");
+            form.reset();
+            location.hash = "#home";
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          })
+          .catch((err) => {
+            console.error("EmailJS error:", err);
+            alert("❌ Failed to send booking request. Please try again.");
+          });
       });
     </script>
   </body>
