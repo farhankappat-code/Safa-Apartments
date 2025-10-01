@@ -316,12 +316,7 @@
       }
     </style>
 
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-    <script>
-      (function () {
-        emailjs.init("TU0rvpFgyj7-V_-OG"); // replace with your EmailJS public key
-      })();
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   </head>
   <body>
     <!-- Header -->
@@ -631,7 +626,7 @@
             <h4 style="margin: 0 0 8px">Contact</h4>
             <p style="margin: 0; color: var(--muted)">
               SAFA APARTMENTS<br />
-              NEAR MOULANA HOSPITAL PERINTHALMANNA<br />
+              Housing colony road near town hall perinthalmanna<br />
               Phone: +91‑97456 26655<br />
               Email: Safaperintalmanna@gmail.com
             </p>
@@ -646,59 +641,37 @@
       </div>
     </footer>
 
-    <script>
-      // Update year
-      document.getElementById("year").textContent = new Date().getFullYear();
-
-      // Simple active nav highlighting & smooth scroll
-      const links = document.querySelectorAll("header nav a");
-      const opts = { rootMargin: "-40% 0px -55% 0px", threshold: 0 };
-      const sections = Array.from(
-        document.querySelectorAll("main[id], section[id]")
-      );
-      const map = new Map(sections.map((s) => [s.id, s]));
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          const id = entry.target.getAttribute("id");
-          const link = document.querySelector(`header nav a[href="#${id}"]`);
-          if (link) {
-            link.classList.toggle("active", entry.isIntersecting);
-          }
+    <script type="text/javascript">
+      (function () {
+        // Initialize EmailJS with public key
+        emailjs.init({
+          publicKey: "A7X2bnqQkp5qxFTf5", // Public Key
         });
-      }, opts);
-      sections.forEach((s) => observer.observe(s));
+      })();
 
-      links.forEach((a) =>
-        a.addEventListener("click", (e) => {
-          const href = a.getAttribute("href");
-          if (href.startsWith("#")) {
-            e.preventDefault();
-            document
-              .querySelector(href)
-              ?.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
-        })
-      );
+      // Attach form submit handler
+      document
+        .getElementById("bookingForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
 
-      // Handle booking submission with EmailJS
-      const form = document.getElementById("bookingForm");
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        emailjs
-          .sendForm("service_ocqkt1s", "template_9dr2crz", this)
-          .then(() => {
-            alert("✅ Booking request sent! We will contact you soon.");
-            form.reset();
-            location.hash = "#home";
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          })
-          .catch((err) => {
-            console.error("EmailJS error:", err);
-            alert("❌ Failed to send booking request. Please try again.");
-          });
-      });
+          emailjs
+            .sendForm(
+              "service_t1ihtar", // Service ID
+              "template_9ozgyeu", // Template ID
+              this
+            )
+            .then(
+              function () {
+                alert("✅ Booking request sent successfully!");
+                document.getElementById("bookingForm").reset();
+              },
+              function (error) {
+                alert("❌ Failed to send booking. Please try again.");
+                console.error("EmailJS Error:", error);
+              }
+            );
+        });
     </script>
   </body>
 </html>
